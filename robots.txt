@@ -1,0 +1,3 @@
+User-agent: *
+Sitemap: https://engineering.belong.co/sitemap.xml
+Disallow: /ghost/
