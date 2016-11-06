@@ -1,0 +1,57 @@
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Belong Engineering</title><description>Belong Engineering</description><link>http://localhost:2368/</link><generator>Ghost 0.11</generator><lastBuildDate>Sun, 06 Nov 2016 18:15:36 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Easing out the deployment pipeline- Part 1</title><description>&lt;p&gt;One of the major components of any infrastructure is how the deployment pipeline is modeled and how it is exposed to the end user, the &lt;mark&gt;developer&lt;/mark&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The Engineering culture&lt;/strong&gt; &lt;br&gt;
+At &lt;a href="https://belong.co"&gt;Belong&lt;/a&gt;, we have always believed in imbibing a culture of end to end responsibility. Not only is the developer responsible&lt;/p&gt;</description><link>http://localhost:2368/easing-out-the-deployment-pipeline-part-1/</link><guid isPermaLink="false">ef286afe-b444-4ea2-959d-3fbf8ab45ded</guid><category>ansible</category><category>docker</category><category>packer</category><category>infrastructure</category><dc:creator>Phani Kumar</dc:creator><pubDate>Sun, 06 Nov 2016 18:11:07 GMT</pubDate><content:encoded>&lt;p&gt;One of the major components of any infrastructure is how the deployment pipeline is modeled and how it is exposed to the end user, the &lt;mark&gt;developer&lt;/mark&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The Engineering culture&lt;/strong&gt; &lt;br&gt;
+At &lt;a href="https://belong.co"&gt;Belong&lt;/a&gt;, we have always believed in imbibing a culture of end to end responsibility. Not only is the developer responsible for the development of the application but &lt;em&gt;also&lt;/em&gt; the deployment and monitoring of the application in production - the entire life cycle.&lt;/p&gt;
+
+&lt;p&gt;The primary responsibility of the infrastructure team is to enable this and make the deployment pipeline as steadfast and non-intrusive as possible. &lt;/p&gt;
+
+&lt;p&gt;The choice of tools and framework goes a long way in establishing this pipeline. Currently, the DevOps stack consists of:  &lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Terraform&lt;/strong&gt; - Environment provisioning &lt;br&gt;
+&lt;strong&gt;Ansible&lt;/strong&gt; - Configuration management &lt;br&gt;
+&lt;strong&gt;Strider&lt;/strong&gt; - Continuous deployment &lt;br&gt;
+&lt;strong&gt;Datadog&lt;/strong&gt; - Monitoring &lt;br&gt;
+&lt;strong&gt;HEK&lt;/strong&gt; - Logging infrastructure(Heka, ElasticSearch and Kibana) &lt;br&gt;
+&lt;strong&gt;Docker&lt;/strong&gt; - Dev environments &lt;br&gt;
+&lt;strong&gt;Cyclops&lt;/strong&gt; - An internal tool for extended environment provisioning.&lt;/p&gt;
+
+&lt;p&gt;This post is a barebones introduction to how the tools are deployed to piece the deployment pipeline together. It will also serve as the basis for all posts from the infrastructure team. &lt;/p&gt;
+
+&lt;h6 id="ansible"&gt;&lt;strong&gt;Ansible&lt;/strong&gt;&lt;/h6&gt;
+
+&lt;p&gt;The life cycle of an application revolves around the environment on which it is deployed on. The more idempotent the components of the environment are, the better is the predictability of the applications deployed. While there are quite a few configuration managements systems out there, we chose to go with Ansible - being agentless on a multi cloud setup made much more sense and most of our backend is written in Python making it easier to tweak Ansible’s Python API should the need arise.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;How is Ansible being used?&lt;/strong&gt; &lt;br&gt;
+The different services that run internally(and there are a lot of them) and also the external webapps have their own Ansible playbooks with the roles being shared - meaning all the playbooks are pushed to the same repository.&lt;/p&gt;
+
+&lt;p&gt;Once a server gets provisioned(more on this process in a later blog post), the playbook is run to bring up the environment on the instance. At the end of the run, the instance is ready to serve the requests. &lt;a href="https://github.com/Strider-CD/strider/"&gt;&lt;strong&gt;Strider&lt;/strong&gt;&lt;/a&gt; is used as the CI tool and all the further code changes are pushed to the instances via Strider.&lt;/p&gt;
+
+&lt;h6 id="extendingansibleenterpacker"&gt;&lt;strong&gt;Extending Ansible - Enter Packer&lt;/strong&gt;&lt;/h6&gt;
+
+&lt;p&gt;When we picked up Packer we were looking at it from the perspective of disaster recovery and autoscaling. Packer is a handy tool by the good folks at HashiCorp. It takes in a variety of provisioners(Ansible, Chef, Bash scripts) and outputs multiple artifacts if configured to do so. So an Ansible playbook can be used to build an Amazon AMI for the production setup whilst also creating a Vagrant box for the developers to work on.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;How are we using Packer?&lt;/strong&gt; &lt;br&gt;
+All the Ansible playbooks are fed to the Packer configuration to create AMIs which can then be used for a rolling deploy behind a load balancer or as a base for a new instance.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;What next?&lt;/strong&gt; &lt;br&gt;
+While Packer does make it simple to ensure idempotent components form the basis of the infrastructure, it does not scale well for us given the nature and frequency of deployments.&lt;/p&gt;
+
+&lt;p&gt;We have turned to experimenting with &lt;strong&gt;Docker&lt;/strong&gt; to see how it holds up being at the center of a fast moving deployment pipeline. &lt;br&gt;
+We have adopted Docker for the dev environments and intend to push it to production enroute staging. We will be sharing our learnings as we adopt this alternative pipeline.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Subscribe to the blog to get updates from the tech community at Belong.&lt;/em&gt;&lt;/p&gt;</content:encoded></item><item><title>Hello, World!</title><description>&lt;blockquote&gt;
+  &lt;p&gt;&lt;em&gt;Placeholder&lt;/em&gt; until we populate this space with some posts.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Please do subscribe to our general blog &lt;a href="http://blog.belong.co"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Cheers!&lt;/p&gt;</description><link>http://localhost:2368/hello-world/</link><guid isPermaLink="false">13263d2e-dc96-4dec-a2e3-622da9049c1a</guid><category>culture</category><dc:creator>Phani Kumar</dc:creator><pubDate>Tue, 05 Jul 2016 17:51:41 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+  &lt;p&gt;&lt;em&gt;Placeholder&lt;/em&gt; until we populate this space with some posts.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Please do subscribe to our general blog &lt;a href="http://blog.belong.co"&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Cheers!&lt;/p&gt;</content:encoded></item></channel></rss>
