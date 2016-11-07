@@ -24,7 +24,7 @@
     <meta property="og:description" content="One of the major components of any infrastructure is how the deployment pipeline is modeled and how it is exposed to the end user, the developer. The Engineering culture  At Belong, we have always believed in imbibing a culture of end to end responsibility. Not only is the developer responsible">
     <meta property="og:url" content="http://engineering.belong.co/easing-out-the-deployment-pipeline-part-1/">
     <meta property="article:published_time" content="2016-11-06T18:11:07.000Z">
-    <meta property="article:modified_time" content="2016-11-06T18:24:19.000Z">
+    <meta property="article:modified_time" content="2016-11-07T09:25:32.000Z">
     <meta property="article:tag" content="ansible">
     <meta property="article:tag" content="docker">
     <meta property="article:tag" content="packer">
@@ -63,7 +63,7 @@
     "headline": "Easing out the deployment pipeline - Part 1",
     "url": "http://engineering.belong.co/easing-out-the-deployment-pipeline-part-1/",
     "datePublished": "2016-11-06T18:11:07.000Z",
-    "dateModified": "2016-11-06T18:24:19.000Z",
+    "dateModified": "2016-11-07T09:25:32.000Z",
     "keywords": "ansible, docker, packer, infrastructure",
     "description": "One of the major components of any infrastructure is how the deployment pipeline is modeled and how it is exposed to the end user, the developer. The Engineering culture  At Belong, we have always believed in imbibing a culture of end to end responsibility. Not only is the developer responsible",
     "mainEntityOfPage": {
@@ -131,20 +131,20 @@ At <a href="https://belong.co">Belong</a>, we have always believed in imbibing a
 <strong>Docker</strong> - Dev environments <br>
 <strong>Cyclops</strong> - An internal tool for extended environment provisioning.</p>
 
-<p>This post is a barebones introduction on how the tools are deployed to piece the deployment pipeline together. It will also serve as the basis for all posts from the infrastructure team. </p>
+<p>This post is a bare bones introduction on how the tools are deployed to piece the deployment pipeline together. It will also serve as the basis for all posts from the infrastructure team. </p>
 
 <h6 id="ansible"><strong>Ansible</strong></h6>
 
-<p>The life cycle of an application revolves around the environment on which it is deployed on. The more idempotent the components of the environment are, the better is the predictability of the applications deployed. While there are quite a few configuration managements systems out there, we chose to go with Ansible - being agentless on a multi cloud setup made much more sense and most of our backend is written in Python making it easier to tweak Ansible’s Python API should the need arise.</p>
+<p>The life cycle of an application revolves around the environment on which it is deployed. The more idempotent the components of the environment are, the better is the predictability of the application. While there are quite a few configuration managements systems out there, we chose to go with Ansible - being agentless on a multi cloud setup made much more sense and most of our backend is written in Python, making it easier to tweak Ansible’s Python API should the need arise.</p>
 
 <p><strong>How is Ansible being used?</strong> <br>
-The different services that run internally(and there are a lot of them) and also the external webapps have their own Ansible playbooks with the roles being shared - meaning all the playbooks are pushed to the same repository.</p>
+The different services that run internally (and there are a lot of them) have their own playbooks with the roles being shared - meaning all the playbooks are pushed to the same repository.</p>
 
-<p>Once a server gets provisioned(more on this process in a later blog post), the playbook is run to bring up the environment on the instance. At the end of the run, the instance is ready to serve the requests. <a href="https://github.com/Strider-CD/strider/"><strong>Strider</strong></a> is used as the CI tool and all the further code changes are pushed to the instances via Strider.</p>
+<p>Once a server gets provisioned (more on this process in a later blog post), the playbook is run to bring up the environment on the instance. At the end of the run, the instance is ready to serve the requests. <a href="https://github.com/Strider-CD/strider/"><strong>Strider</strong></a> is used as the CI tool and all the further code changes are pushed to the instances via Strider.</p>
 
 <h6 id="extendingansibleenterpacker"><strong>Extending Ansible - Enter Packer</strong></h6>
 
-<p>When we picked up Packer we were looking at it from the perspective of disaster recovery and autoscaling. Packer is a handy tool by the good folks at HashiCorp. It takes in a variety of provisioners(Ansible, Chef, Bash scripts) and outputs multiple artifacts if configured to do so. So an Ansible playbook can be used to build an Amazon AMI for the production setup whilst also creating a Vagrant box for the developers to work on.</p>
+<p>When we picked up Packer we were looking at it from the perspective of disaster recovery and autoscaling. Packer is a handy tool by the good folks at <a href="https://www.hashicorp.com/">HashiCorp</a>. It takes in a variety of provisioners (Ansible, Chef, Bash scripts) and outputs multiple artifacts if configured to do so. So an Ansible playbook can be used to build an Amazon AMI for the production setup whilst also creating a Vagrant box for the developers to work on.</p>
 
 <p><strong>How are we using Packer?</strong> <br>
 All the Ansible playbooks are fed to the Packer configuration to create AMIs which can then be used for a rolling deploy behind a load balancer or as a base for a new instance.</p>
